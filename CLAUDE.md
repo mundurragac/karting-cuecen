@@ -20,7 +20,7 @@ Everything lives in `index.html` — no bundler, no framework, no dependencies.
    - `teams` — team colors (hex bg + font color)
    - `races` — results per race date (position 1-14 + fastest lap)
    - `points` — scoring system (25-20-16-13-11-10-9-8-7-6-5-4-3-2 + 1 for FL)
-2. Google Sheets returns headers as the first data row (`parsedNumHeaders: 0`), so the fetch function treats row 0 as headers.
+2. The Google Sheets API returns column headers via `cols.label` when `parsedNumHeaders > 0`. The sheet should have a frozen header row to ensure this.
 3. Points are calculated client-side from race positions.
 
 ### UI Structure
