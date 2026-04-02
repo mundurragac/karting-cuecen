@@ -236,12 +236,50 @@
             border-radius: 2px;
         }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.4rem; }
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 10px;
+        }
+
+        .table-wrapper table {
+            min-width: 500px;
+        }
+
+        .race-card-header {
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1.5rem 1rem; }
+            header h1 { font-size: 1.8rem; }
+            header p { font-size: 0.85rem; }
             .container { padding: 1rem 0.5rem; }
-            td, th { padding: 0.5rem 0.3rem; font-size: 0.8rem; }
-            .team-badge { font-size: 0.7rem; padding: 0.1rem 0.35rem; }
-            .tab { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+            td, th { padding: 0.5rem 0.4rem; font-size: 0.82rem; }
+            .points-total { font-size: 0.95rem; }
+            .chart-container { padding: 1rem 0.5rem 0.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.3rem; letter-spacing: 1px; }
+            header p { font-size: 0.75rem; }
+            .container { padding: 0.8rem 0.75rem; }
+            .tabs { gap: 0.3rem; }
+            .tab { padding: 0.45rem 0.65rem; font-size: 0.75rem; }
+            td, th { padding: 0.4rem 0.25rem; font-size: 0.75rem; }
+            .pos { width: 28px; }
+            .team-badge { font-size: 0.65rem; padding: 0.1rem 0.3rem; }
+            .fl-badge { font-size: 0.55rem; padding: 0.05rem 0.25rem; }
+            .points-total { font-size: 0.85rem; }
+            .race-card-header { padding: 0.6rem 0.7rem; font-size: 0.85rem; }
+            .race-card-header .fl-info { font-size: 0.7rem; }
+            .chart-legend { gap: 0.4rem 0.8rem; padding: 0.7rem; }
+            .chart-legend-item { font-size: 0.7rem; }
+            .chart-legend-swatch { width: 18px; }
+            .next-race-banner { padding: 0.8rem; }
+            .next-race-banner h3 { font-size: 0.75rem; }
+            .next-race-banner p { font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -383,7 +421,7 @@
                 .sort((a, b) => b[1].total - a[1].total);
 
             // --- Render Drivers Standings ---
-            let html = '<table><thead><tr>';
+            let html = '<div class="table-wrapper"><table><thead><tr>';
             html += '<th class="pos">#</th><th>Piloto</th><th>Equipo</th>';
             races.forEach((r, i) => {
                 html += `<th class="points-cell">F${i + 1}</th>`;
@@ -406,7 +444,7 @@
                 html += `<td class="points-total">${data.total}</td>`;
                 html += `</tr>`;
             });
-            html += '</tbody></table>';
+            html += '</tbody></table></div>';
             document.getElementById('drivers').innerHTML = html;
 
             // --- Render Teams Standings ---
@@ -436,7 +474,7 @@
             const sortedTeams = Object.entries(teamPoints)
                 .sort((a, b) => b[1].total - a[1].total);
 
-            let thtml = '<table><thead><tr>';
+            let thtml = '<div class="table-wrapper"><table><thead><tr>';
             thtml += '<th class="pos">#</th><th>Equipo</th><th>Pilotos</th>';
             races.forEach((r, i) => {
                 thtml += `<th class="points-cell">F${i + 1}</th>`;
@@ -457,7 +495,7 @@
                 thtml += `<td class="points-total">${data.total}</td>`;
                 thtml += `</tr>`;
             });
-            thtml += '</tbody></table>';
+            thtml += '</tbody></table></div>';
             document.getElementById('teams').innerHTML = thtml;
 
             // --- Render Races ---
