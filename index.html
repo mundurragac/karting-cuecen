@@ -337,14 +337,21 @@
                     if (!response || !response.table) return reject(new Error('No data'));
 
                     const allRows = response.table.rows;
-                    // First row contains headers (parsedNumHeaders is 0)
-                    const headerRow = allRows[0];
-                    const headers = headerRow.c.map(cell => cell ? String(cell.v || '') : '');
-                    const rows = allRows.slice(1).map(r => {
+                    const hasHeaders = response.table.parsedNumHeaders > 0;
+                    let headers, dataRows;
+                    if (hasHeaders) {
+                        headers = response.table.cols.map(c => c.label || '');
+                        dataRows = allRows;
+                    } else {
+                        const headerRow = allRows[0];
+                        headers = headerRow.c.map(cell => cell ? String(cell.v != null ? cell.v : (cell.f || '')) : '');
+                        dataRows = allRows.slice(1);
+                    }
+                    const rows = dataRows.map(r => {
                         const obj = {};
                         headers.forEach((h, i) => {
                             const cell = r.c && r.c[i];
-                            obj[h] = cell ? (cell.v != null ? String(cell.v) : '') : '';
+                            obj[h] = cell ? (cell.v != null ? String(cell.v) : (cell.f || '')) : '';
                         });
                         return obj;
                     });
